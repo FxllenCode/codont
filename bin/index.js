@@ -1,12 +1,9 @@
 #! /usr/bin/env node
 
 const yargs = require('yargs');
+const { argv } = require('yargs');
 const main = require('yargs');
 const utils = require('./utils');
-
-
-
-
 
 const usage = '\nUsage: codont <cmd> [args]'; const options = main
   .usage(usage)
@@ -50,6 +47,21 @@ const usage = '\nUsage: codont <cmd> [args]'; const options = main
   }, (argv) => {
     const res = utils.dnaReplicate(argv.DNA);
     console.log(res);
+  })
+  .command('compare [RNA1] [RNA2]', 'Compares RNA strands and looks for mutations', (yargs) => {
+    yargs.positional('RNA1', {
+      describe: 'RNA sequence 1 to compare.',
+      type: 'string',
+      default: '',
+    });
+    yargs.positional('RNA2', {
+      describe: 'RNA sequence 12 to compare.',
+      type: 'string',
+      default: '',
+    });
+  }, (argv) => {
+    const res = utils.mutationCheck(argv.RNA1, argv.RNA2)
+    console.log(res)
   })
   .help(true)
   .argv;
